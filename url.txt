@@ -1,0 +1,8 @@
+https://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
+
+
+
+http://jasonwatmore.com/post/2016/09/29/angular-2-user-registration-and-login-example-tutorial
+
+
+http://jasonwatmore.com/post/2017/01/24/angular-2-custom-modal-window-dialog-box

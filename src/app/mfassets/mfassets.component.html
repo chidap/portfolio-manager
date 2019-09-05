@@ -1,0 +1,242 @@
+<div class=" col col-xs-12">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h4 class="panel-title">Mututal Fund Assets</h4>
+    </div>
+    <div class="panel-body">
+        <form  [formGroup]="myForm" (ngSubmit)="onSubmit()"  novalidate>
+          <fieldset formGroupName="fund">
+            <legend>Fund Information</legend>
+            <div class="row form-group" >
+              <div class="col-lg-2" ><label for="fundFamily">Fund Family</label></div>
+              <div class="col-lg-4">
+                <select class="form-control" id="fundFamily" formControlName="fundFamily">
+                  <option value="">Select a Fund Family</option>
+                  <option *ngFor="let fundfam of fundFamilies" [value]="fundfam">{{fundfam}}</option>
+                </select>
+              </div>
+              <div class="col-lg-2" ><label for="fundName">Fund Name</label></div>
+              <div class="col-lg-4" ><input type="text" id="fundName" class="form-control" name="fundName" placeholder="Fund Name...." formControlName="fundName"></div>
+            </div> 
+            
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="fundCategory">Fund Category</label></div>
+              <div class="col-lg-4" [ngClass] = "{ 
+                'has-success': fundCategory.valid && (fundCategory.dirty || fundCategory.touched),
+                'has-error': fundCategory.invalid && (fundCategory.dirty || fundCategory.touched)
+                }">
+                <select class="form-control" id="fundCategory" formControlName="fundCategory">
+                  <option value="">Select Fund Category....</option>
+                  <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+                </select>
+              </div>
+              <div class="col-lg-2" ><label for="fundType">Fund Type</label></div>
+              <div class="col-lg-4">
+                <select class="form-control" id="fundType" formControlName="fundType">
+                  <option value="">Select Fund Type</option>
+                  <option *ngFor="let ftype of fTypes" [value]="ftype">{{ftype}}</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="row form-group" >
+              <div class="col-lg-2" ><label for="assets">Assets</label></div>
+              <div class="col-lg-4" [ngClass] = "{ 
+                'has-success': assets.valid && (assets.dirty || assets.touched),
+                'has-error': assets.invalid && (assets.dirty || assets.touched)
+                }">
+                <input type="text" id="assets" class="form-control" name="assets"  formControlName="assets">
+                <div class="form-control-feedback" *ngIf="assets.errors && (assets.dirty || assets.touched)">
+                    <p  *ngIf="assets.errors.required"> Assets is required</p>
+                    <p  *ngIf="assets.errors.pattern"> Assets is Invalid</p>     
+                </div>
+              </div>
+              <div class="col-lg-2" ><label for="expense">Expense</label></div>
+              <div class="col-lg-4"><input type="text" id="expense" class="form-control" name="expense" placeholder="Enter Expense Value..." formControlName="expense"></div>
+            </div>
+                   
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="subscriptionType">Subscription Type</label></div>
+              <div class="col-lg-4">
+                <select class="form-control" id="subscriptionType" formControlName="subscriptionType">
+                  <option value="">Select Subscription Type....</option>
+                  <option *ngFor="let substype of subsTypes" [value] = "substype">{{substype}}</option>
+                </select>
+              </div>
+              <div class="col-lg-2"><label for="currentNav">NAV</label></div>
+              <div class="col-lg-4"><input type="text" id="currentNav" class="form-control" name="currentNav" placeholder="Enter Nav Value..." formControlName="currentNav"></div>
+            </div>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="fundRating">Fund Rating</label></div>
+              <div class="col-lg-4"><input type="text" id="fundRating" class="form-control" name="fundRating" placeholder="Rating.." formControlName="fundRating"></div>
+            </div>
+          
+            <legend>Fund Return Information</legend>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="firstYrReturn">1 - Yr Return</label></div>
+              <div class="col-lg-4"><input type="text" id="firstYrReturn" class="form-control" name="firstYrReturn" placeholder="Enter Folio No." formControlName="firstYrReturn"></div>
+              <div class="col-lg-2" ><label for="thirdYrReturn">3 - Yr Return</label></div>
+              <div class="col-lg-4"><input type="text" id="thirdYrReturn" class="form-control" name="thirdYrReturn" placeholder="Enter Folio No." formControlName="thirdYrReturn"></div>
+            </div>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="fifthYrReturn">5 - Yr Return</label></div>
+              <div class="col-lg-4"><input type="text" id="fifthYrReturn" class="form-control" name="fifthYrReturn" placeholder="Rating.." formControlName="fifthYrReturn"></div>
+            </div>
+          
+          
+            <legend>SIP Information</legend>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="folioNo">Folio No.</label></div>
+              <div class="col-lg-4"><input type="text" id="folioNo" class="form-control" name="folioNo" placeholder="Enter Folio No." formControlName="folioNo"></div>
+              <div class="col-lg-2" ><label for="accountNo">Account No.</label></div>
+              <div class="col-lg-4"><input type="text" id="accountNo" class="form-control" name="accountNo" placeholder="Account No..." formControlName="accountNo"></div>
+            </div>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="sipStartDt">SIP Start Date</label></div>
+              <div class="col-lg-4">
+                        <!--<input type="text" id="sipStartDt" class="form-control" name="sipStartDt" placeholder="Select Start Date..." formControlName="sipStartDt">-->
+                        <my-date-picker name="sipStartDt" [options]="myDatePickerOptions" formControlName="sipStartDt" (dateChanged)="onStartDateChanged($event)" ></my-date-picker>
+              </div>
+              <div class="col-lg-2" ><label for="sipEndDt">SIP End Date</label></div>
+              <div class="col-lg-4">
+                        <!--<input type="text" id="sipEndDt" class="form-control" name="sipEndDt" placeholder="Select End Date..." formControlName="sipEndDt">-->
+                        <my-date-picker name="sipEndDt" [options]="myDatePickerOptions" formControlName="sipEndDt" (dateChanged)="onEndDateChanged($event)" ></my-date-picker>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="emiDay">EMI Day</label></div>
+              <div class="col-lg-4"><input type="text" id="emiDay" class="form-control" name="emiDay" placeholder="EMI Day..." formControlName="emiDay"></div>
+              <div class="col-lg-2" ><label for="firstAmount">First Premium Amount</label></div>
+              <div class="col-lg-4"><input type="text" id="firstAmount" class="form-control" name="firstAmount" placeholder="First Installment Amount..." formControlName="firstAmount"></div>   
+            </div>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="monthlyAmount">Monthly Premium Amount</label></div>
+              <div class="col-lg-4" [ngClass]="{
+                'has-success': monthlyAmount.valid && (monthlyAmount.dirty || monthlyAmount.touched),
+                'has-error': monthlyAmount.invalid && (monthlyAmount.dirty || monthlyAmount.touched)
+                }">
+                <input type="text" id="monthlyAmount" class="form-control" name="monthlyAmount" placeholder="Monthly Installment Amount.." formControlName="monthlyAmount">
+                <div *ngIf="monthlyAmount.errors && (monthlyAmount.dirty || monthlyAmount.touched)">
+                  <p *ngIf="monthlyAmount.errors.required">Monthly premium is required </p>
+                  <p *ngIf="monthlyAmount.errors.pattern">Monthly premium is invalid </p>
+                </div>
+              </div>
+              
+              <div class="col-lg-2" ><label for="investedAmount">Current Invested Amount</label></div>
+              <div class="col-lg-4" [ngClass]="{
+                'has-success': investedAmount.valid && (investedAmount.dirty || investedAmount.touched),
+                'has-error': investedAmount.invalid && (investedAmount.dirty || investedAmount.touched)
+                }">
+                <input type="text" id="investedAmount" class="form-control" name="investedAmount" placeholder="Total Invested Amount.." formControlName="investedAmount">
+                <div *ngIf="investedAmount.errors && (investedAmount.dirty || investedAmount.touched)">
+                  <p *ngIf="investedAmount.errors.required">Current Invested Amount is required</p>
+                  <p *ngIf="investedAmount.errors.pattern">Current Invested Amount is invalid</p>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="currentUnit">Current Unit</label></div>
+              <div class="col-lg-4" [ngClass]="{
+                'has-success': currentUnit.valid && (currentUnit.dirty || currentUnit.touched),
+                'has-error': currentUnit.invalid && (currentUnit.dirty || currentUnit.touched)
+                }">
+                <input type="text" id="currentUnit" class="form-control" name="currentUnit" placeholder="Total Unit.." formControlName="currentUnit">
+                <div *ngIf="currentUnit.errors && (currentUnit.dirty || currentUnit.touched)">
+                  <p *ngIf="currentUnit.errors.required">Current Total unit is required</p>
+                  <p *ngIf="currentUnit.errors.pattern">Current Total unit is invalid</p>
+                </div>
+              </div>
+              
+              <div class="col-lg-2" ><label for="currentMarketValue">Current Market Value</label></div>
+              <div class="col-lg-4" [ngClass]="{
+                'has-success': currentMarketValue.valid && (currentMarketValue.dirty || currentMarketValue.touched),
+                'has-error': currentMarketValue.invalid && (currentMarketValue.dirty || currentMarketValue.touched)
+                }">
+                <input type="text" id="currentMarketValue" class="form-control" name="currentMarketValue" placeholder="Market Value.." formControlName="currentMarketValue" (focus)="calculateMarketValue()" [value]="marketValue">
+                <div *ngIf="currentMarketValue.errors && (currentMarketValue.dirty || currentMarketValue.touched)">
+                  <p *ngIf="currentMarketValue.errors.required">Market Value is required</p>
+                  <p *ngIf="currentMarketValue.errors.pattern">Market Value is invalid</p>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-lg-2" ><label for="currentgainLoss">Current Gain/Loss</label></div>
+              <div class="col-lg-4" [ngClass]="{
+                'has-success': currentgainLoss.valid && (currentgainLoss.dirty || currentgainLoss.touched),
+                'has-error': currentgainLoss.invalid && (currentgainLoss.dirty || currentgainLoss.touched)
+                }">
+                <input type="text" id="currentgainLoss" class="form-control" name="currentgainLoss" placeholder="Total Gain/Loss.." formControlName="currentgainLoss">
+                <div *ngIf="currentgainLoss.errors && (currentgainLoss.dirty || currentgainLoss.touched)">
+                  <p *ngIf="currentgainLoss.errors.required">Total gain/loss is required</p>
+                  <p *ngIf="currentgainLoss.errors.pattern">Total gain/loss is invalid</p>
+                </div>
+              </div>
+
+              <div class="col-lg-2" ><label for="currentPercentReturn">Current % of Return</label></div>
+              <div class="col-lg-4" [ngClass]="{
+                'has-success': currentPercentReturn.valid && (currentPercentReturn.dirty || currentPercentReturn.touched),
+                'has-error': currentPercentReturn.invalid && (currentPercentReturn.dirty || currentPercentReturn.touched)
+                }">
+                <input type="text" id="currentPercentReturn" class="form-control" name="currentPercentReturn" placeholder="Return % pa.." formControlName="currentPercentReturn">
+                <div *ngIf="currentPercentReturn.errors && (currentPercentReturn.dirty || currentPercentReturn.touched)">
+                    <p *ngIf="currentPercentReturn.errors.required">Current % of return is required</p>
+                    <p *ngIf="currentPercentReturn.errors.pattern">Current % of return is invalid</p>
+                </div>
+              </div>
+
+            </div>
+          </fieldset>  
+          <fieldset formGroupName="transaction">
+            <legend>Transaction Details</legend>
+            <div class="row form-group">
+              <div class="col-lg-3">
+                <label for="transactionDt">Transaction Date</label>
+                <!--<input type="text" id="transactionDt" class="form-control" name="transactionDt" placeholder="Transaction Date" formControlName="transactionDt">-->
+                <div><my-date-picker name="transactionDt" [options]="myDatePickerOptions" formControlName="transactionDt" (dateChanged)="onTransactionDateChanged($event)" ></my-date-picker></div>
+              </div>
+
+              <div class="col-lg-3" [ngClass] = "{ 
+                  'has-success': transactionAmount.valid && (transactionAmount.dirty || transactionAmount.touched),
+                  'has-error': transactionAmount.invalid && (transactionAmount.dirty || transactionAmount.touched)
+                  }">
+                  <label for="transactionAmount">Transaction Amount</label>
+                  <input type="text" id="transactionAmount" class="form-control" name="transactionAmount" placeholder="Transaction Amount" formControlName="transactionAmount">
+                  <div *ngIf="transactionAmount.errors && (transactionAmount.dirty || transactionAmount.touched)">
+                      <p  *ngIf="transactionAmount.errors.required"> Transaction Amount is required</p>
+                      <p  *ngIf="transactionAmount.errors.pattern"> Transaction Amount is invalid</p>     
+                  </div>
+              </div>
+
+              <div class="col-lg-3" [ngClass] = "{ 
+                  'has-success': navValue.valid && (navValue.dirty || navValue.touched),
+                  'has-error': navValue.invalid && (navValue.dirty || navValue.touched)
+                  }">
+                <label for="navValue">Nav Value</label>
+                <input type="text" id="navValue" class="form-control" name="navValue" placeholder="Nav Value" formControlName="navValue">
+                <div *ngIf="navValue.errors && (navValue.dirty || navValue.touched)">
+                      <p  *ngIf="navValue.errors.required"> Nav Value is required</p>
+                      <p  *ngIf="navValue.errors.pattern"> Nav Value Amount is invalid</p>     
+                </div>
+              </div>
+
+              <div class="col-lg-3" [ngClass] = "{
+                'has-success': purchaseUnit.valid && (purchaseUnit.dirty || purchaseUnit.touched),      
+                'has-error': purchaseUnit.invalid && (purchaseUnit.dirty || purchaseUnit.touched)
+                }">
+                <label for="purchaseUnit">Purchase Unit</label>
+                <input type="text" id="purchaseUnit" class="form-control" name="purchaseUnit" placeholder="Purchase Unit.." formControlName="purchaseUnit">
+                <div *ngIf="purchaseUnit.errors && (purchaseUnit.dirty || purchaseUnit.touched)">
+                  <p *ngIf="purchaseUnit.errors.required"> Purchase Unit Value is required</p>
+                  <p *ngIf="purchaseUnit.errors.pattern">Purchase Unit value is invalid</p>
+                </div>  
+              </div>
+            </div>
+          </fieldset>    
+          <div class="col-lg-offset-10">
+            <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit </button>
+            <button type="button" class="btn btn-primary" (click)="onReset()">Reset </button>
+          </div>
+        </form>  
+      </div>
+  </div>
+</div>

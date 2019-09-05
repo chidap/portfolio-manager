@@ -1,0 +1,42 @@
+<div class="col-xs-12">
+  <div class="panel panel-primary">
+    <div class="panel panel-heading">
+      <h4 class="panel-title">Mututal Fund Assets</h4>
+    </div>
+    <div class="panel panel-body">
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Mutual Funds </th>
+              <th>Invested Amount</th>
+              <th>Current Unit</th>
+              <th>Nav Value</th>
+              <th>Current Market Value</th>
+              <th>Total Gain/Loss</th>
+              <th>Return % pa</th>
+              <th claspan="2">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="mFunds==[]">
+                        <td colspan="8" class="text-center">No records found.</td>
+              </tr>
+              <tr *ngFor="let mf of mFunds">
+                <td>{{mf?.fundName}}</td>
+                <td>{{mf?.investedAmount | number : '1.2-2'}}</td>
+                <td>{{mf?.currentUnit | number : '1.2-2'}}</td>
+                <td>{{mf?.currentNav | number : '1.2-2'}}</td>
+                <td>{{mf?.currentMarketValue | number : '1.2-2'}}</td>
+                <td>{{mf?.currentMarketValue - mf?.investedAmount | number : '1.2-2'}}</td>
+                <td>{{mf?.currentPercentReturn}}</td>
+                <td><button class="btn btn-primary" (click)="viewDetails(mf._id)">View Details</button>
+                <td><button class="btn btn-primary" (click)="updateFund(mf._id)">Edit</button>
+              </tr>
+            </tbody>
+          
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+https://semaphoreci.com/community/series/test-driven-development-with-angular-2-and-webpack
+
+
+https://angular-2-training-book.rangle.io/handout/testing/components/injecting-dependencies.html

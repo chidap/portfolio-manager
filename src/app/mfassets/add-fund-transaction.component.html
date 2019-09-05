@@ -1,0 +1,157 @@
+<div class="col-xs-12">
+  <div class="panel panel-primary">
+    <div class="panel panel-heading">
+      <h4 class="panel-title">Add Fund Transaction Details {{allDataFetched}}</h4>
+    </div>
+    <div class="panel panel-body">
+      <div class="row" > 
+        <table class="table table-responsive"  >
+          <tr *ngIf="!fund?.fundName; else fundDetails">
+            <td colspan="4">
+              <p>Fund not found! </p>
+            </td>
+          </tr>
+          <ng-template #fundDetails>
+            <tr>
+              <td><strong>Fund Name</strong></td>
+              <td>{{fund?.fundName}}</td>
+              <td><strong>Fund Family</strong></td>
+              <td>{{fund?.fundFamily}}</td>
+              <td><strong>Fund Category</strong></td>
+              <td class="col-heading">{{fund?.fundCategory}}</td>
+            </tr>
+            <tr>
+              <td><strong>Fund Type</strong></td>
+              <td>{{fund?.fundType}}</td>
+              <td><strong>Assets</strong></td>
+              <td>{{fund?.assets}}</td>
+              <td><strong>Expense</strong></td>
+              <td class="col-heading">{{fund?.expense}}</td>
+            </tr>
+            <tr>
+              <td><strong>Subscription Type</strong></td>
+              <td>{{fund?.subscriptionType}}</td>
+              <td><strong>Current Nav</strong></td>
+              <td>{{fund?.currentNav}}</td>
+              <td><strong>Fund Rating</strong></td>
+              <td class="col-heading">{{fund?.fundRating}}</td>
+            </tr>
+            <tr>
+              <td><strong>1 - Yr Return</strong></td>
+              <td>{{fund?.firstYrReturn}}</td>
+              <td><strong>3 - Yr Return</strong></td>
+              <td>{{fund?.thirdYrReturn}}</td>
+              <td><strong>5 - Yr Return</strong></td>
+              <td class="col-heading">{{fund?.fifthYrReturn}}</td>
+            </tr>
+            <tr>
+              <td><strong>Folio No.</strong></td>
+              <td>{{fund?.folioNo}}</td>
+              <td><strong>Transaction Type </strong></td>
+              <td>{{fund?.transactionType}}</td>
+              <td><strong>SIP Start Date</strong></td>
+              <td class="col-heading">{{fund?.sipStartDt | date: 'dd/MM/yyyy'}}</td>
+            </tr>
+            <tr>
+              <td><strong>SIP End Date</strong></td>
+              <td>{{fund?.sipEndDt | date: 'dd/MM/yyyy'}}</td>
+              <td><strong>EMI Day</strong></td>
+              <td>{{fund?.emiDay}}</td>
+              <td><strong>First Premium Amount</strong></td>
+              <td class="col-heading">{{fund?.firstAmount}}</td>
+            </tr>
+            <tr>
+              <td><strong>Monthly Premium Amount</strong></td>
+              <td>{{fund?.monthlyAmount}}</td>
+              <td><strong>Total Invested Amount</strong></td>
+              <td>{{fund?.investedAmount}}</td>
+              <td><strong>Total Unit</strong></td>
+              <td class="col-heading">{{fund?.currentUnit}}</td>
+            </tr>
+            <tr>
+              <td><strong>Market Value</strong></td>
+              <td>{{fund?.currentMarketValue}}</td>
+              <td><strong>Total Gain / Loss</strong></td>
+              <td>{{fund?.currentgainLoss}}</td>
+              <td><strong>% of Return</strong></td>
+              <td class="col-heading">{{fund?.currentPercentReturn}}</td>
+            </tr>
+            <br>
+            <h4>Transaction Details </h4>
+                   
+            <tr *ngFor="let sip of fund?.transactions">
+             <td><strong>SIP Transaction Date</strong></td>
+             <td>{{sip.transactionDt | date: 'dd/MM/yyyy'}}</td>
+             <td><strong>Transaction Amount</strong></td>
+             <td>{{sip.transactionAmount}}</td>
+             <td><strong>NAV Value</strong></td>
+             <td class="col-heading">{{sip.navValue}}</td>
+             <td><strong>Purchased Unit</strong></td>
+             <td class="col-heading">{{sip.purchaseUnit}}</td>
+            </tr>
+                 
+          </ng-template>
+        </table>
+      </div>  
+
+
+
+
+      <form  [formGroup]="myForm" (ngSubmit)="onSubmit()"  novalidate>
+          <div formArrayName="transaction">
+            <div class="row form-group" *ngFor = "let tran of myForm.get('transaction').controls; let i=index" >
+              <fieldset   [formGroupName]="i">
+              <div class="col-lg-3">
+                <label for="transactionDt">Transaction Date</label>
+                <!--<input type="text" id="transactionDt" class="form-control" name="transactionDt" placeholder="Transaction Date" formControlName="transactionDt">-->
+                <div><my-date-picker name="transactionDt" [options]="myDatePickerOptions" formControlName="transactionDt" (dateChanged)="onDateChanged($event)"></my-date-picker></div>
+              </div>
+
+              <div class="col-lg-3" [ngClass] = "{ 
+                  'has-success': transactionAmount.valid && (transactionAmount.dirty || transactionAmount.touched),
+                  'has-error': transactionAmount.invalid && (transactionAmount.dirty || transactionAmount.touched)
+                  }">
+                  <label for="transactionAmount">Transaction Amount</label>
+                  <input type="text" id="transactionAmount" class="form-control" name="transactionAmount" placeholder="Transaction Amount" formControlName="transactionAmount">
+                  <div *ngIf="transactionAmount.errors && (transactionAmount.dirty || transactionAmount.touched)">
+                      <p  *ngIf="transactionAmount.errors.required"> Transaction Amount is required</p>
+                      <p  *ngIf="transactionAmount.errors.pattern"> Transaction Amount is invalid</p>     
+                  </div>
+              </div>
+
+              <div class="col-lg-3" [ngClass] = "{ 
+                  'has-success': navValue.valid && (navValue.dirty || navValue.touched),
+                  'has-error': navValue.invalid && (navValue.dirty || navValue.touched)
+                  }">
+                <label for="navValue">Nav Value</label>
+                <input type="text" id="navValue" class="form-control" name="navValue" placeholder="Nav Value" formControlName="navValue">
+                <div *ngIf="navValue.errors && (navValue.dirty || navValue.touched)">
+                      <p  *ngIf="navValue.errors.required"> Nav Value is required</p>
+                      <p  *ngIf="navValue.errors.pattern"> Nav Value Amount is invalid</p>     
+                </div>
+              </div>
+
+              <div class="col-lg-3" [ngClass] = "{
+                'has-success': purchaseUnit.valid && (purchaseUnit.dirty || purchaseUnit.touched),      
+                'has-error': purchaseUnit.invalid && (purchaseUnit.dirty || purchaseUnit.touched)
+                }">
+                <label for="purchaseUnit">Purchase Unit</label>
+                <input type="text" id="purchaseUnit" class="form-control" name="purchaseUnit" placeholder="Purchase Unit.." formControlName="purchaseUnit">
+                <div *ngIf="purchaseUnit.errors && (purchaseUnit.dirty || purchaseUnit.touched)">
+                  <p *ngIf="purchaseUnit.errors.required"> Purchase Unit Value is required</p>
+                  <p *ngIf="purchaseUnit.errors.pattern">Purchase Unit value is invalid</p>
+                </div>  
+              </div>
+              </fieldset> 
+            </div>
+           </div>  
+          <div class="col-lg-offset-10">
+            <button type="button" class="btn btn-primary" [disabled]="!myForm.valid" (click)="saveTransaction()">Save </button>
+            <button type="button" class="btn btn-primary" (click) = "addTransactionControl()">Add More </button>
+            <button type="button" class="btn btn-primary" (click)="onReset()">Reset </button>
+          </div>
+      </form>
+      
+    </div>
+  </div>
+</div>

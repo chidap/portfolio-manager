@@ -1,0 +1,12 @@
+<div class="col-xs-12">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h4 class="panel-title">Birthdays in the week</h4>
+    </div>
+    <div class="panel-body">
+      <div class="card card-block">
+        <app-contact-person *ngFor="let contact of contactList" [contactPerson]="contact"></app-contact-person>
+      </div>
+    </div>
+  </div>
+</div>
